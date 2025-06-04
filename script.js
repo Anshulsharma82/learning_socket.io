@@ -58,10 +58,3 @@ function appendMessage(msg, width, backgroundColor='bg-white', color='black', al
     newDiv.appendChild(newP)
     contentDiv.appendChild(newDiv)
 } 
-
-// function appendMessage2(msg) {
-//     const newDiv = document.createElement('div')
-//     newDiv.innerHTML = msg
-//     newDiv.classList.add('bg-gray-400', 'text-white')
-//     contentDiv.appendChild(newDiv)
-// }  
