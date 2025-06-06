@@ -8,6 +8,43 @@ let userName = prompt('What\'s your name?')
 
 userName = userName ? userName : 'Someone'
 
+inputField.addEventListener('keydown', (e) => {
+    if(e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Alt' && e.key !=='Tab') {
+        socket.emit('user-typing', userName)
+    }
+})
+
+let typingTimeout = null;
+let typingDiv = null;
+
+socket.on('broadcast-user-typing', (msg) => {
+    
+    if (typingTimeout) {
+        clearTimeout(typingTimeout);
+        typingTimeout = null;
+    }
+
+    // Remove previous div if exists
+    if (typingDiv) {
+        typingDiv.remove();
+        typingDiv = null;
+    }
+
+    // Create new div
+    typingDiv = document.createElement('div');
+    typingDiv.innerHTML = msg;
+    typingDiv.classList.add('self-start', 'bg-white', 'text-black', 'p-1', 'mx-2', 'rounded-md')
+    contentDiv.appendChild(typingDiv);
+
+    // Set timeout to remove it after 2 seconds
+    typingTimeout = setTimeout(() => {
+        if (typingDiv) {
+            typingDiv.remove();
+            typingDiv = null;
+        }
+    }, 1000);
+})
+
 appendMessage('You Joined!', 'w-[98.5%]', 'bg-black', 'text-white')
 socket.emit('user-connected', userName)
 

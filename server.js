@@ -9,6 +9,10 @@ let users = {}
 io.on('connection', socket => {
     console.log('Server is active...')
     
+    socket.on('user-typing', (userName) => {
+        socket.broadcast.emit('broadcast-user-typing',`${userName} is typing...`)
+    })
+
     socket.on('user-connected', (userName) => {
         console.log('users::::::::::::::::::', users)
         users[socket.id] = userName
